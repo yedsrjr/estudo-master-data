@@ -4,7 +4,7 @@ using Domain.Models.ViewModels;
 using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MasterDataV2.Controllers
+namespace MasterData.Web.Controllers
 {
     public class PedidoItemController(PedidoItemService service, LogOrderService logService) : Controller
     {
@@ -57,6 +57,14 @@ namespace MasterDataV2.Controllers
             }
 
             return View("Create", vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await service.DeleteItem(id);
+
+            return Ok(new { success = true });
         }
     }
 }

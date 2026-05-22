@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Routing;
 namespace Domain.Services
 {
     public class PedidoItemService(IComponentFactory factory, IEntityRepository repository, LinkGenerator linkGen,
-        IHttpContextAccessor contextAcessor, PedidoRepository pedidoRepository)
+        IHttpContextAccessor contextAcessor, PedidoRepository pedidoRepository, LogOrderService logService)
     {
         public async Task<JJFormView> SetupFormViewItem(int? idPedido)
         {
@@ -41,14 +41,12 @@ namespace Domain.Services
             formView.GridView.AddGridAction(new ScriptAction
             {
                 Name = "removeItem",
-                OnClientClick = "DeletarItem('{Id}')",
-                //SqlCommand = "DELETE FROM[dbo].[PedidoItem] WHERE[Id] = {Id}",
+                OnClientClick = "confirmarExclusao({Id})",
                 Tooltip = "Remover Item",
                 Icon = FontAwesomeIcon.TimesCircle,
                 Color = BootstrapColor.Danger,
                 Order = 1,
-                EnableExpression = $"exp:'{{Status}}' = {(int)OrderStatus.Elaboration}",
-                ConfirmationMessage = "Deseja remover este item?"
+                EnableExpression = $"exp:'{{Status}}' = {(int)OrderStatus.Elaboration}"
             });
 
             formView.GridView.SetCurrentFilter("PedidoId", idPedido);
@@ -113,6 +111,21 @@ namespace Domain.Services
             }
 
             return vm;
+        }
+
+        public async Task DeleteItem(int id)
+        {
+            var dataPanel = await factory.DataPanel.CreateAsync("PedidoItem");
+            await dataPanel.LoadValuesFromPkAsync(id);
+            var pedidoId = dataPanel.Values.TryGetValue("PedidoId", out var pedidoIdObj);
+
+            var values = new Dictionary<string, object>
+            {
+                ["Id"] = id
+            };
+
+            await repository.DeleteAsync(dataPanel.FormElement, values);
+            await logService.SaveLog(Convert.ToInt32(pedidoIdObj), "Item removido", (int)LogStatus.Delete);
         }
     }
 }

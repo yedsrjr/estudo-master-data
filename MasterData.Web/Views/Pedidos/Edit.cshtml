@@ -80,6 +80,7 @@
     </script>
 }
 
+
 <script>
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -89,35 +90,33 @@
         buttonsStyling: false
     });
 
-    function confirmarExclusao(id) {
-        swalWithBootstrapButtons.fire({
+    async function confirmarExclusao(id) {
+        const result = await swalWithBootstrapButtons.fire({
             title: "Tem certeza?",
-            text: "Essa ação não poderá ser desfeita.",
+            text: "Você não poderá desfazer esta ação!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Sim, excluir!",
             cancelButtonText: "Não, cancelar!",
             reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch('@Url.Action("Delete", "Pedidos")', {
-                    method: 'POST',
-                    body: JSON.stringify({ id: id })
-                })
-                    .then(r => {
-                        if (!r.ok) throw new Error();
-                        return r.json();
-                    })
-                    .then(() => {
-                        swalWithBootstrapButtons.fire("Excluído!", "Registro removido com sucesso.", "success")
-                            .then(() => location.reload());
-                    })
-                    .catch(() => {
-                        swalWithBootstrapButtons.fire("Erro", "Não foi possível excluir.", "error");
-                    });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                swalWithBootstrapButtons.fire("Cancelado", "Nenhuma alteração foi feita.", "info");
-            }
         });
+
+        if (!result.isConfirmed) return;
+
+        try {
+            const response = await fetch('@Url.Action("Delete", "PedidoItem")?id=' + encodeURIComponent(id), {
+                method: 'POST'
+            });
+
+            if (!response.ok) {
+                const msg = await response.text();
+                throw new Error(msg || `HTTP ${response.status}`);
+            }
+
+            await swalWithBootstrapButtons.fire("Excluído!", "Item removido com sucesso.", "success");
+            location.reload();
+        } catch (err) {
+            await swalWithBootstrapButtons.fire("Erro", err.message || "Não foi possível excluir o item.", "error");
+        }
     }
 </script>

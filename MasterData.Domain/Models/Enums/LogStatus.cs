@@ -3,7 +3,7 @@
     public enum LogStatus
     {
         Insert = 1,
-        Cancel = 2,
+        Delete = 2,
         Edit = 3,
         Send = 4
     }
