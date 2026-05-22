@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="MasterData.Domain/MasterData.Domain.csproj" Id="9e87689a-ffeb-4eb0-9a80-82c09f355ca9" />
+  <Project Path="MasterData.Web/MasterData.Web.csproj" />
+</Solution>

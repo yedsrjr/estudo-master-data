@@ -1,0 +1,53 @@
+﻿@using Domain.Models.ViewModels
+
+@model PanelViewModel
+
+<partial name="_NavBar" />
+
+<div class="container mt-4">
+    @using (Html.BeginForm())
+    {
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                @Html.Raw(ViewBag.Content)
+
+                @if (Model.ErrorAlert != null)
+                {
+                    @Html.Raw(Model.ErrorAlert.GetHtml())
+
+                }
+
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn btn-primary me-2" asp-action="Create"
+                            asp-route-customerId="@ViewBag.CustomerId">
+                        <i class="bi bi-save"></i> Salvar
+                    </button>
+
+                    <a href="@Url.Action("Index", "PriceCustomer")" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@if (TempData["Mensagem"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Sucesso!',
+            text: '@TempData["Mensagem"]',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redireciona para outra página
+                window.location.href = '@Url.Action("Index", "PriceCustomer")';
+            }
+        });
+    </script>
+}
+

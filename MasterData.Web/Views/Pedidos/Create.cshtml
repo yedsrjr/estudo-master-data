@@ -1,0 +1,33 @@
+﻿@using Domain.Models.ViewModels
+
+@model PedidoViewModel
+
+<partial name="_NavBar" />
+
+<div class="container mt-4">
+    @using (Html.BeginForm())
+    {
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                @Html.Raw(ViewBag.Content)
+
+                @if (Model.ErrorAlert != null)
+                {
+                    @Html.Raw(Model.ErrorAlert.GetHtml())
+                } 
+
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn btn-primary me-2"
+                            asp-action="Create">
+                        <i class="bi bi-save"></i> Salvar
+                    </button>
+
+                    <a href="@Url.Action("Index", "Pedidos")" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

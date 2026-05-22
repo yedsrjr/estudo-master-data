@@ -1,0 +1,8 @@
+﻿<partial name="_NavBar" />
+
+<div class="container mt-1">
+    @using (Html.BeginForm())
+    {
+        @Html.Raw(ViewBag.Content)
+    }
+</div>

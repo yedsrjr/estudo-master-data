@@ -1,0 +1,39 @@
+﻿@using Domain.Models.ViewModels
+
+@model ProdutoViewModel
+
+<partial name="_NavBar" />
+
+<div class="container mt-4">
+    @using (Html.BeginForm())
+    {
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                @Html.Raw(ViewBag.Content)
+
+                @if (Model.ErrorAlert!.Messages.Count > 0)
+                {
+                    @Html.Raw(Model.ErrorAlert.GetHtml())
+
+                }
+
+                @if (Model.SuccessAlert!.Messages.Count > 0)
+                {
+                    @Html.Raw(Model.SuccessAlert.GetHtml())
+                }
+
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn btn-primary me-2" asp-action="PostAdd"
+                            asp-route-codProd="@ViewBag.CodProd">
+                        <i class="bi bi-save"></i> Salvar
+                    </button>
+
+                    <a href="@Url.Action("Index", "Produtos")" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

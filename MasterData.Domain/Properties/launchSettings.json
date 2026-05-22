@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "MasterData.Domain": {
+      "commandName": "Project"
+    }
+  }
+}

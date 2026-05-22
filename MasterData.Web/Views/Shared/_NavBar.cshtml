@@ -1,0 +1,38 @@
+﻿@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+
+    string NavClass(string ctrl, string act = "Index")
+        => controller == ctrl && action == act ? "btn btn-primary" : "btn btn-light";
+}
+
+<nav class="mb-4">
+    <div class="container">
+        <div class="d-flex flex-wrap justify-content-center gap-3 bg-white rounded-3 p-3 shadow-sm border border-secondary">
+
+            <a asp-controller="MasterDataDash" asp-action="Index" class="@NavClass("MasterDataDash") flex-fill text-center fw-medium">
+                <i class="fas fa-gauge-high"></i> Dashboard
+            </a>
+
+            <a asp-controller="Clientes" asp-action="Index" class="@NavClass("Clientes") flex-fill text-center fw-medium">
+                <i class="fas fa-users"></i> Clientes
+            </a>
+
+            <a asp-controller="Produtos" asp-action="Index" class="@NavClass("Produtos") flex-fill text-center fw-medium">
+                <i class="bi bi-box-seam-fill me-1"></i> Produtos
+            </a>
+
+            <a asp-controller="Pedidos" asp-action="Index" class="@NavClass("Pedidos") flex-fill text-center fw-medium">
+                <i class="bi bi-file-earmark-text-fill me-1"></i> Pedidos
+            </a>
+
+            <a asp-controller="PriceCustomer" asp-action="Index" class="btn btn-light flex-fill text-center fw-medium">
+                <i class="fas fa-tag me-1"></i> Tabela de Preços
+            </a>
+
+            <a href="/DataDictionary" class="btn btn-light flex-fill text-center fw-medium">
+                <i class="fas fa-gear"></i> MasterData
+            </a>
+        </div>
+    </div>
+</nav>

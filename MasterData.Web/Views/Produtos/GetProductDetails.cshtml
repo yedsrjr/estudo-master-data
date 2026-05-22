@@ -1,0 +1,13 @@
+﻿
+<div class="container mt-4">
+    @using (Html.BeginForm())
+    {
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                @Html.Raw(ViewBag.Content)
+
+            </div>
+        </div>
+    }
+</div>

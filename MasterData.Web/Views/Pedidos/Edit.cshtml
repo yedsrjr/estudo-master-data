@@ -1,0 +1,123 @@
+﻿@using Domain.Models.ViewModels
+
+@model PedidoViewModel
+
+<div class="container mt-4">
+    @using (Html.BeginForm("Edit", "Pedidos", FormMethod.Post))
+    {
+        <div class="card shadow-sm">
+            <div class="card-header" data-bs-toggle="collapse" data-bs-target="#form-header" style="cursor: pointer;">
+                <i class="fa fa-chevron-down me-2"></i> Dados do Pedido
+            </div>
+            <div class="collapse show" id="form-header">
+                <div class="card-body">
+                    @Html.Raw(ViewBag.ContentHeader)
+                    @if (Model?.ErrorAlert != null)
+                    {
+                        @Html.Raw(Model.ErrorAlert.GetHtml())
+                    }
+                    <div class="d-flex justify-content-between align-items-center">
+                        <input type="hidden" name="codPedido" value="@Model?.CodPedido" />
+                        <a></a>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Salvar Dados
+                            </button>
+
+                            <a asp-action="SendOrder" asp-route-codPedido="@Model?.CodPedido" class="btn btn-success">
+                                <i class="fa fa-send"></i> Finalizar Pedido
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mt-3">
+            <div class="card-header" data-bs-toggle="collapse" data-bs-target="#form-item" style="cursor: pointer;">
+                <i class="fa fa-chevron-down me-2"></i> Itens do Pedido
+            </div>
+            <div class="collapse show" id="form-item">
+                <div class="card-body">
+                    @Html.Raw(ViewBag.ContentItem)
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mt-3">
+            <div class="card-header" data-bs-toggle="collapse" data-bs-target="#form-obs" style="cursor: pointer;">
+                <i class="fa fa-chevron-down me-2"></i> Observações cadastradas
+            </div>
+            <div class="collapse show" id="form-obs">
+                <div class="card-body">
+                    @Html.Raw(ViewBag.ContentLog)
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mt-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <input type="hidden" name="codPedido" value="@Model?.CodPedido" />
+                    <a asp-controller="Pedidos" asp-action="Index" class="btn btn-secondary me-1">
+                        <i class="fa-solid fa-left-long"></i> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (TempData["Mensagem"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Sucesso!',
+            text: '@TempData["Mensagem"]',
+            confirmButtonText: 'OK'
+        });
+    </script>
+}
+
+<script>
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-success",
+            cancelButton: "btn btn-danger"
+        },
+        buttonsStyling: false
+    });
+
+    function confirmarExclusao(id) {
+        swalWithBootstrapButtons.fire({
+            title: "Tem certeza?",
+            text: "Essa ação não poderá ser desfeita.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sim, excluir!",
+            cancelButtonText: "Não, cancelar!",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('@Url.Action("Delete", "Pedidos")', {
+                    method: 'POST',
+                    body: JSON.stringify({ id: id })
+                })
+                    .then(r => {
+                        if (!r.ok) throw new Error();
+                        return r.json();
+                    })
+                    .then(() => {
+                        swalWithBootstrapButtons.fire("Excluído!", "Registro removido com sucesso.", "success")
+                            .then(() => location.reload());
+                    })
+                    .catch(() => {
+                        swalWithBootstrapButtons.fire("Erro", "Não foi possível excluir.", "error");
+                    });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire("Cancelado", "Nenhuma alteração foi feita.", "info");
+            }
+        });
+    }
+</script>
