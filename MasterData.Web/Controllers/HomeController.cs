@@ -2,7 +2,7 @@ using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace MasterDataV2.Controllers
+namespace MasterData.Web.Controllers
 {
     public class HomeController : Controller
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Domain.Services;
 
-namespace MasterDataV2.Controllers
+namespace MasterData.Web.Controllers
 {
     public class MasterDataDash(DashboardService service) : Controller
     {

@@ -5,7 +5,7 @@ using Domain.Models.ViewModels;
 using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MasterDataV2.Controllers
+namespace MasterData.Web.Controllers
 {
     public class PedidosController(PedidoService service, PedidoItemService itemService,
         LogOrderService logService) : Controller
