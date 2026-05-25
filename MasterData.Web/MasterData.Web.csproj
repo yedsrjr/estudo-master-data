@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\files\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MasterData.Domain\MasterData.Domain.csproj" />
   </ItemGroup>
 
