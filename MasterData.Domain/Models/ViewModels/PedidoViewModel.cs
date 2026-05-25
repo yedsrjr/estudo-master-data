@@ -8,5 +8,6 @@ namespace Domain.Models.ViewModels
         public JJDataPanel? DataPanel { get; set; }
         public JJAlert? ErrorAlert { get; set; }
         public int? CodPedido{ get; set; }
+        public List<JJAlert> ValidationAlerts { get; set; } = new();
     }
 }

@@ -1,6 +1,7 @@
-using JJMasterData.Web.Configuration;
 using Domain.Repository;
 using Domain.Services;
+using JJMasterData.Web.Configuration;
+using MasterData.Domain.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<ClienteService>();
 builder.Services.AddTransient<ProdutoService>();
 builder.Services.AddTransient<PedidoService>();
+builder.Services.AddScoped<OrderValidate>();
 builder.Services.AddTransient<PedidoItemService>();
 builder.Services.AddTransient<PriceCustomerService>();
 builder.Services.AddTransient<LogOrderService>();
