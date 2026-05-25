@@ -2,22 +2,17 @@ using Domain.Repository;
 using Domain.Services;
 using JJMasterData.Web.Configuration;
 using MasterData.Domain.Services;
+using MasterData.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddMemoryCache();
 builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<ClienteService>();
-builder.Services.AddTransient<ProdutoService>();
-builder.Services.AddTransient<PedidoService>();
-builder.Services.AddScoped<OrderValidate>();
-builder.Services.AddTransient<PedidoItemService>();
-builder.Services.AddTransient<PriceCustomerService>();
-builder.Services.AddTransient<LogOrderService>();
-builder.Services.AddTransient<DashboardService>();
-builder.Services.AddScoped<DashboardRepository>();
-builder.Services.AddScoped<PedidoRepository>();
+
+builder.Services.AddServices();
+builder.Services.AddRepositories();
+
 builder.Services.AddJJMasterDataWeb();
 
 var app = builder.Build();
