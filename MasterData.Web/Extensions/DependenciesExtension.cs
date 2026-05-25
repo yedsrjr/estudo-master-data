@@ -8,7 +8,6 @@ namespace MasterData.Web.Extensions
     {
         public static void AddRepositories(this IServiceCollection services)
         {
-
             services.AddScoped<DashboardRepository>();
             services.AddScoped<OrderValidate>();
             services.AddScoped<PedidoRepository>();
@@ -23,6 +22,5 @@ namespace MasterData.Web.Extensions
             services.AddTransient<LogOrderService>();
             services.AddTransient<DashboardService>();
         }
-        
     }
 }

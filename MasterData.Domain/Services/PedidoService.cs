@@ -7,6 +7,7 @@ using JJConsulting.Html.Bootstrap.Models;
 using JJMasterData.Commons.Data.Entity.Repository.Abstractions;
 using JJMasterData.Core.DataDictionary.Models;
 using JJMasterData.Core.DataDictionary.Models.Actions;
+using JJMasterData.Core.DataManager.IO;
 using JJMasterData.Core.UI.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -14,7 +15,8 @@ using Microsoft.AspNetCore.Routing;
 namespace Domain.Services
 {
     public class PedidoService(IComponentFactory factory,IHttpContextAccessor contextAcessor, LinkGenerator linkGen,
-        IEntityRepository repository, DashboardService cache, PedidoRepository pedidoRepository)
+        IEntityRepository repository, DashboardService cache, PedidoRepository pedidoRepository,
+        FormFileService fileService)
     {
         public async Task<ComponentResult> SetupFormView()
         {
@@ -152,6 +154,8 @@ namespace Domain.Services
 
                 vm.CodPedido = (int?)dataPanel.Values["Id"];
 
+                fileService.SaveFormMemoryFiles(dataPanel.FormElement, values);
+
                 cache.InvalidateDashboardCache();
 
                 await pedidoRepository.UpdateTotalOrder((int)vm.CodPedido);
@@ -168,6 +172,7 @@ namespace Domain.Services
             var values = await dataPanel.GetFormValuesAsync();
 
             await repository.SetValuesAsync(dataPanel.FormElement, values);
+            fileService.SaveFormMemoryFiles(dataPanel.FormElement, values);
             await pedidoRepository.UpdateTotalOrder((int)codPedido);
         }
     }

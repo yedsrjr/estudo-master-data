@@ -129,6 +129,7 @@ namespace MasterData.Web.Controllers
 
             if (vm.ErrorAlert == null)
             {
+
                 await logService.SaveLog(codPedido, "Pedido atualizado.", (int)LogStatus.Edit);
                 TempData["Mensagem"] = "Pedido atualizado com sucesso!";
                 return RedirectToAction("Edit", new { codPedido = vm.CodPedido });
@@ -180,16 +181,5 @@ namespace MasterData.Web.Controllers
 
             return View("Create", vm);
         }
-
-        //public async Task<IActionResult> SendOrder(int codPedido)
-        //{
-        //    var dataPanel = await service.SetupDataPanelPedido(codPedido);
-
-        //    await service.SendOrder(dataPanel);
-        //    await logService.SaveLog(codPedido, "Pedido Exportado", (int)LogStatus.Send);
-
-        //    TempData["Mensagem"] = "Pedido Exportado";
-        //    return RedirectToAction("Details", new {codPedido});
-        //}
     }
 }
