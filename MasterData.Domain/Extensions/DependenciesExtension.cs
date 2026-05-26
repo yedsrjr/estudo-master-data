@@ -1,8 +1,10 @@
 ﻿using Domain.Repository;
 using Domain.Services;
+using MasterData.Domain.Repository;
 using MasterData.Domain.Services;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace MasterData.Web.Extensions
+namespace MasterData.Domain.Extensions
 {
     public static class DependenciesExtension
     {
@@ -11,6 +13,8 @@ namespace MasterData.Web.Extensions
             services.AddScoped<DashboardRepository>();
             services.AddScoped<OrderValidate>();
             services.AddScoped<PedidoRepository>();
+            services.AddScoped<CustomerRepository>();
+            services.AddScoped<BaseRepository>();
         }
         public static void AddServices(this IServiceCollection services)
         {

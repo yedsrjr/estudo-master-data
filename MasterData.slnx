@@ -1,5 +1,7 @@
 <Solution>
   <Project Path="MasterData.API/MasterData.API.csproj" Id="b1462ec2-5fb8-4e4c-92e6-04f4c1d2caac" />
   <Project Path="MasterData.Domain/MasterData.Domain.csproj" Id="9e87689a-ffeb-4eb0-9a80-82c09f355ca9" />
-  <Project Path="MasterData.Web/MasterData.Web.csproj" />
+  <Project Path="MasterData.Web/MasterData.Web.csproj">
+    <BuildDependency Project="MasterData.API/MasterData.API.csproj" />
+  </Project>
 </Solution>

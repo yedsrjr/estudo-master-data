@@ -1,8 +1,5 @@
-using Domain.Repository;
-using Domain.Services;
 using JJMasterData.Web.Configuration;
-using MasterData.Domain.Services;
-using MasterData.Web.Extensions;
+using MasterData.Domain.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
