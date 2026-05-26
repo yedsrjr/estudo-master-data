@@ -70,7 +70,8 @@ namespace MasterData.Domain.Repository
                         ([NomeAbreviado], [NomeCliente], [NumCPF], [Status], [UpdatedAt])
                         OUTPUT INSERTED.Id
                         VALUES (@NomeAbreviado, @NomeCliente, 
-                        @NumCPF, @Status, ISNULL(@UpdatedAt, GETDATE()))"
+                        @NumCPF, @Status, ISNULL(@UpdatedAt, GETDATE()));
+                        SELECT SCOPE_IDENTITY();"
             };
 
             cmd.Parameters.Add(new DataAccessParameter("@NomeAbreviado", request.ShortName));

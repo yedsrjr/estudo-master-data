@@ -35,7 +35,8 @@ namespace MasterData.Domain.Repository
         }
         public async Task<int> SetAsync(DataAccessCommand cmd)
         {
-            return await dataAccess.SetCommandAsync(cmd);
+            var id = await dataAccess.GetResultAsync(cmd);
+            return Convert.ToInt32(id);
         }
 
     }

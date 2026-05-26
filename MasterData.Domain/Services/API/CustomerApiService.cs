@@ -35,7 +35,7 @@ namespace MasterData.Domain.Services.API
         {
             var cmd = customerRepository.InsertCustomer(request);
             var id = await customerRepository.SetAsync(cmd);
-            return Convert.ToInt32(id); 
+            return id;
         }
     }
 }
