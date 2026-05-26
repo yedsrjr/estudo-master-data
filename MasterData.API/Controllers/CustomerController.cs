@@ -65,8 +65,8 @@ namespace MasterData.API.Controllers
                     Name = model.Name,
                     ShortName = model.ShortName,
                     CpfCnpj = model.CpfCnpj,
-                    Status = model.Status,
-                    UpdatedAt = DateTime.UtcNow.ToString()
+                    Status = 1,
+                    UpdatedAt = DateTime.Now.ToString()
                 };
 
                 var id = await service.AddAsync(request);
