@@ -13,7 +13,7 @@ public class CustomerResponse
     [JsonProperty("NumCPF")]
     public string? CpfCnpj { get; set; }
     [JsonProperty("Status")]
-    public string? Status { get; set; }
+    public int? Status { get; set; }
     [JsonProperty("UpdatedAt")]
     public string? UpdatedAt { get; set; }
 }
