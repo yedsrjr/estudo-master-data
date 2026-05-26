@@ -1,4 +1,5 @@
-﻿using MasterData.Domain.Models.DTOs;
+﻿using MasterData.API.Models.DTOs.Customer;
+using MasterData.Domain.Models.DTOs;
 using MasterData.Domain.Models.DTOs.Customer;
 using MasterData.Domain.Models.ViewModels;
 using MasterData.Domain.Repository;
@@ -28,6 +29,13 @@ namespace MasterData.Domain.Services.API
             var customer = await customerRepository.GetAsync<CustomerResponse>(cmd);
 
             return customer.FirstOrDefault();
+        }
+
+        public async Task<int> AddAsync(CustomerRequest request)
+        {
+            var cmd = customerRepository.InsertCustomer(request);
+            var id = await customerRepository.SetAsync(cmd);
+            return Convert.ToInt32(id); 
         }
     }
 }

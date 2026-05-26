@@ -33,6 +33,11 @@ namespace MasterData.Domain.Repository
                 Items = items
             };
         }
+        public async Task<int> SetAsync(DataAccessCommand cmd)
+        {
+            return await dataAccess.SetCommandAsync(cmd);
+        }
+
     }
 }
 

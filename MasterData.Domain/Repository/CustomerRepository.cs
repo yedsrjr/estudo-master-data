@@ -1,4 +1,5 @@
 ﻿using JJMasterData.Commons.Data;
+using MasterData.API.Models.DTOs.Customer;
 using MasterData.Domain.Models.DTOs.Customer;
 using System.Data;
 
@@ -14,7 +15,6 @@ namespace MasterData.Domain.Repository
                 Sql = @"SELECT COUNT(1) FROM [Clientes]"
             };
         }
-
         public DataAccessCommand GetCommandCustomer(int page, int pageSize)
         {
             var offset = (page - 1) * pageSize;
@@ -58,6 +58,26 @@ namespace MasterData.Domain.Repository
             };
 
             cmd.Parameters.Add(new DataAccessParameter("@id", id));
+
+            return cmd;
+        }
+        public DataAccessCommand InsertCustomer(CustomerRequest request)
+        {
+            var cmd = new DataAccessCommand
+            {
+                Type = CommandType.Text,
+                Sql = @"INSERT INTO [Clientes]
+                        ([NomeAbreviado], [NomeCliente], [NumCPF], [Status], [UpdatedAt])
+                        OUTPUT INSERTED.Id
+                        VALUES (@NomeAbreviado, @NomeCliente, 
+                        @NumCPF, @Status, ISNULL(@UpdatedAt, GETDATE()))"
+            };
+
+            cmd.Parameters.Add(new DataAccessParameter("@NomeAbreviado", request.ShortName));
+            cmd.Parameters.Add(new DataAccessParameter("@NomeCliente", request.Name));
+            cmd.Parameters.Add(new DataAccessParameter("@NumCPF", request.CpfCnpj));
+            cmd.Parameters.Add(new DataAccessParameter("@Status", request.Status));
+            cmd.Parameters.Add(new DataAccessParameter("@UpdatedAt", request.UpdatedAt));
 
             return cmd;
         }

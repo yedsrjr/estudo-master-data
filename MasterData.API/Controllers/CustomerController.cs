@@ -1,4 +1,5 @@
-﻿using MasterData.Domain.Models.DTOs;
+﻿using MasterData.API.Models.DTOs.Customer;
+using MasterData.Domain.Models.DTOs;
 using MasterData.Domain.Models.DTOs.Customer;
 using MasterData.Domain.Models.ViewModels;
 using MasterData.Domain.Services.API;
@@ -42,6 +43,45 @@ namespace MasterData.API.Controllers
                 return StatusCode(500, new ResultViewModel<CustomerResponse>("05X04 - Falha interna no servidor"));
             }
 
+        }
+
+        [HttpPost("v1/customers")]
+        public async Task<IActionResult> PostAsync([FromBody] CustomerRequest model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                    .SelectMany(x => x.Errors)
+                    .Select(x => x.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(new ResultViewModel<CustomerRequest>(errors));
+            }
+
+            try
+            {
+                var request = new CustomerRequest
+                {
+                    Name = model.Name,
+                    ShortName = model.ShortName,
+                    CpfCnpj = model.CpfCnpj,
+                    Status = model.Status,
+                    UpdatedAt = DateTime.UtcNow.ToString()
+                };
+
+                var id = await service.AddAsync(request);
+                request.Id = id;
+
+                return Created($"v1/customers/{id}", request);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new ResultViewModel<List<CustomerRequest>>("05XE9 - Não foi possível incluir um cliente"));
+            }
+            catch
+            {
+                return StatusCode(500, new ResultViewModel<List<CustomerRequest>>("05X10 - Falha interna no servidor"));
+            }
         }
     }
 }
