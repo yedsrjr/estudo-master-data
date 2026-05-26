@@ -8,5 +8,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="JJMasterData.Web" Version="4.5.23" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 </Project>

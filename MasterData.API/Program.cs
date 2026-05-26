@@ -1,3 +1,5 @@
+using MasterData.Domain.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddApiInfrastructure(builder.Configuration);
+
+builder.Services.AddRepositories();
+builder.Services.AddServicesApi();
 
 var app = builder.Build();
 

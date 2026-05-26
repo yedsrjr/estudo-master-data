@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 
+namespace MasterData.Domain.Extensions;
+
 public static class DictionaryExtensions
 {
     public static T? ToModel<T>(this Dictionary<string, object?> dictionary, JsonSerializerSettings? jsonSerializerSettings = null)

@@ -1,7 +1,10 @@
 ﻿using Domain.Repository;
 using Domain.Services;
+using JJMasterData.Commons.Configuration;
 using MasterData.Domain.Repository;
 using MasterData.Domain.Services;
+using MasterData.Domain.Services.API;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MasterData.Domain.Extensions
@@ -25,6 +28,20 @@ namespace MasterData.Domain.Extensions
             services.AddTransient<PriceCustomerService>();
             services.AddTransient<LogOrderService>();
             services.AddTransient<DashboardService>();
+        }
+        public static void AddRepositoriesApi(this IServiceCollection services)
+        {
+            services.AddScoped<CustomerRepository>();
+        }
+        public static void AddServicesApi(this IServiceCollection services)
+        {
+            services.AddTransient<CustomerApiService>();
+        }
+        public static void AddApiInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddMemoryCache();
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddJJMasterDataCommons(configuration);
         }
     }
 }
