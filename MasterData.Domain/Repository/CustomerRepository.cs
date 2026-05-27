@@ -1,6 +1,5 @@
 ﻿using JJMasterData.Commons.Data;
 using MasterData.API.Models.DTOs.Customer;
-using MasterData.Domain.Models.DTOs.Customer;
 using System.Data;
 
 namespace MasterData.Domain.Repository

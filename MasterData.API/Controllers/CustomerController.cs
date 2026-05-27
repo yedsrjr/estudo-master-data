@@ -1,5 +1,4 @@
-﻿using Domain.Models.Enums;
-using MasterData.API.Models.DTOs.Customer;
+﻿using MasterData.API.Models.DTOs.Customer;
 using MasterData.Domain.Models.DTOs;
 using MasterData.Domain.Models.DTOs.Customer;
 using MasterData.Domain.Models.Enums;

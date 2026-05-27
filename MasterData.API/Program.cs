@@ -10,7 +10,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddApiInfrastructure(builder.Configuration);
 
-builder.Services.AddRepositories();
+builder.Services.AddRepositoriesApi();
 builder.Services.AddServicesApi();
 
 var app = builder.Build();
