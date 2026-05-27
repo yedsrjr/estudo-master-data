@@ -32,10 +32,12 @@ namespace MasterData.Domain.Extensions
         public static void AddRepositoriesApi(this IServiceCollection services)
         {
             services.AddScoped<CustomerRepository>();
+            services.AddScoped<ProductRepository>();
         }
         public static void AddServicesApi(this IServiceCollection services)
         {
             services.AddTransient<CustomerApiService>();
+            services.AddTransient<ProductApiService>();
         }
         public static void AddApiInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
