@@ -1,6 +1,8 @@
-﻿using MasterData.API.Models.DTOs.Customer;
+﻿using Domain.Models.Enums;
+using MasterData.API.Models.DTOs.Customer;
 using MasterData.Domain.Models.DTOs;
 using MasterData.Domain.Models.DTOs.Customer;
+using MasterData.Domain.Models.Enums;
 using MasterData.Domain.Models.ViewModels;
 using MasterData.Domain.Services.API;
 using Microsoft.AspNetCore.Mvc;
@@ -65,7 +67,7 @@ namespace MasterData.API.Controllers
                     Name = model.Name,
                     ShortName = model.ShortName,
                     CpfCnpj = model.CpfCnpj,
-                    Status = 1,
+                    Status = (int)Status.Active,
                     UpdatedAt = DateTime.Now.ToString()
                 };
 
@@ -102,7 +104,7 @@ namespace MasterData.API.Controllers
                     Name = model.Name,
                     ShortName = model.ShortName,
                     CpfCnpj = model.CpfCnpj,
-                    Status = 1,
+                    Status = (int)Status.Active,
                     UpdatedAt = DateTime.Now.ToString()
                 };
 
@@ -134,7 +136,7 @@ namespace MasterData.API.Controllers
 
                 await service.CancelCustomerAsync(id);
 
-                customer.Status = 0;
+                customer.Status = (int)Status.Inactive;
 
                 return Ok(new ResultViewModel<CustomerResponse>(customer));
             }
