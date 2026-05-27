@@ -82,6 +82,31 @@ namespace MasterData.Domain.Repository
 
             return cmd;
         }
+
+        public DataAccessCommand UpdateCustomer(int id, CustomerRequest request)
+        {
+            var cmd = new DataAccessCommand
+            {
+                Type = CommandType.Text,
+                Sql = @"UPDATE [Clientes]
+                        SET 
+                           [NomeAbreviado] = @NomeAbreviado,
+                           [NomeCliente] = @NomeCliente,
+                           [NumCPF] = @NumCPF,
+                           [Status] = @Status,
+                           [UpdatedAt] = @UpdatedAt
+                         WHERE Id = @id"
+            };
+
+            cmd.Parameters.Add(new DataAccessParameter("@id", id));
+            cmd.Parameters.Add(new DataAccessParameter("@NomeAbreviado", request.ShortName));
+            cmd.Parameters.Add(new DataAccessParameter("@NomeCliente", request.Name));
+            cmd.Parameters.Add(new DataAccessParameter("@NumCPF", request.CpfCnpj));
+            cmd.Parameters.Add(new DataAccessParameter("@Status", request.Status));
+            cmd.Parameters.Add(new DataAccessParameter("@UpdatedAt", request.UpdatedAt));
+
+            return cmd;
+        }
         public DataAccessCommand CancelCustomer(int id)
         {
             var cmd = new DataAccessCommand

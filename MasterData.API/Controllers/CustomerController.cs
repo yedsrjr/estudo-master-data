@@ -84,6 +84,42 @@ namespace MasterData.API.Controllers
             }
         }
 
+        [HttpPut("v1/customers/{id:int}")]
+        public async Task<IActionResult> PutAsync([FromRoute] int id, [FromBody] CustomerRequest model)
+        {
+            try
+            {
+                var customer = await service.GetByIdAsync(id);
+
+                if (customer == null)
+                {
+                    return NotFound(new ResultViewModel<CustomerResponse>("Conteúdo não encontrado"));
+                }
+
+                var newCustomer = new CustomerRequest
+                {
+                    Id = id,
+                    Name = model.Name,
+                    ShortName = model.ShortName,
+                    CpfCnpj = model.CpfCnpj,
+                    Status = 1,
+                    UpdatedAt = DateTime.Now.ToString()
+                };
+
+                await service.UpdateAsync(id, newCustomer);
+
+                return Ok(new ResultViewModel<CustomerRequest>(newCustomer));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new ResultViewModel<CustomerResponse>("05XE9 - Não foi possível atualizar o cliente"));
+            }
+            catch
+            {
+                return StatusCode(500, new ResultViewModel<CustomerResponse>("05X10 - Falha interna no servidor"));
+            }
+        }
+
         [HttpDelete("v1/customers/{id:int}")]
         public async Task<IActionResult> CancelAsync([FromRoute] int id)
         {
