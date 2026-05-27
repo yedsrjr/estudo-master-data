@@ -38,6 +38,11 @@ namespace MasterData.Domain.Repository
             var id = await dataAccess.GetResultAsync(cmd);
             return Convert.ToInt32(id);
         }
+        public async Task<bool> CancelAsync(DataAccessCommand cmd)
+        {
+            var result = await dataAccess.GetResultAsync(cmd);
+            return Convert.ToInt32(result) > 0;
+        }
 
     }
 }

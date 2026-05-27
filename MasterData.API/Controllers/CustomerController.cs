@@ -83,5 +83,29 @@ namespace MasterData.API.Controllers
                 return StatusCode(500, new ResultViewModel<List<CustomerRequest>>("05X10 - Falha interna no servidor"));
             }
         }
+
+        [HttpDelete("v1/customers/{id:int}")]
+        public async Task<IActionResult> CancelAsync([FromRoute] int id)
+        {
+            try
+            {
+                var customer = await service.GetByIdAsync(id);
+
+                if (customer == null)
+                {
+                    return NotFound(new ResultViewModel<CustomerResponse>("Conteúdo não encontrado"));
+                }
+
+                await service.CancelCustomerAsync(id);
+
+                customer.Status = 0;
+
+                return Ok(new ResultViewModel<CustomerResponse>(customer));
+            }
+            catch
+            {
+                return StatusCode(500, new ResultViewModel<CustomerResponse>("05X04 - Falha interna no servidor"));
+            }
+        }
     }
 }

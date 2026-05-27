@@ -82,5 +82,19 @@ namespace MasterData.Domain.Repository
 
             return cmd;
         }
+        public DataAccessCommand CancelCustomer(int id)
+        {
+            var cmd = new DataAccessCommand
+            {
+                Type = CommandType.Text,
+                Sql = @"UPDATE [Clientes]
+                        SET [STATUS] = 0
+                        WHERE Id = @id"
+            };
+
+            cmd.Parameters.Add(new DataAccessParameter("@id", id));
+
+            return cmd;
+        }
     }
 }

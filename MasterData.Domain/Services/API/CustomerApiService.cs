@@ -37,5 +37,11 @@ namespace MasterData.Domain.Services.API
             var id = await customerRepository.SetAsync(cmd);
             return id;
         }
+        public async Task<bool> CancelCustomerAsync(int id)
+        {
+            var cmd = customerRepository.CancelCustomer(id);
+            var result = await customerRepository.CancelAsync(cmd);
+            return Convert.ToInt32(result) > 0;
+        }
     }
 }
