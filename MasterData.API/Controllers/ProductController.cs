@@ -1,6 +1,4 @@
-﻿using MasterData.API.Models.DTOs.Customer;
-using MasterData.Domain.Models.DTOs;
-using MasterData.Domain.Models.DTOs.Customer;
+﻿using MasterData.Domain.Models.DTOs;
 using MasterData.Domain.Models.DTOs.Product;
 using MasterData.Domain.Models.Enums;
 using MasterData.Domain.Models.ViewModels;

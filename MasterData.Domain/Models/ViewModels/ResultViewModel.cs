@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-
-
-namespace MasterData.Domain.Models.ViewModels;
+﻿namespace MasterData.Domain.Models.ViewModels;
 
 public class ResultViewModel<T>
 {
