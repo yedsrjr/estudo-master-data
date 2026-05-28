@@ -1,5 +1,4 @@
 ﻿using Domain.Repository;
-using Domain.Services;
 using JJMasterData.Commons.Configuration;
 using MasterData.Domain.Repository;
 using MasterData.Domain.Services;
@@ -33,11 +32,13 @@ namespace MasterData.Domain.Extensions
         {
             services.AddScoped<CustomerRepository>();
             services.AddScoped<ProductRepository>();
+            services.AddScoped<PriceCustomerRepository>();
         }
         public static void AddServicesApi(this IServiceCollection services)
         {
             services.AddTransient<CustomerApiService>();
             services.AddTransient<ProductApiService>();
+            services.AddTransient<PriceCustomerApiService>();
         }
         public static void AddApiInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
