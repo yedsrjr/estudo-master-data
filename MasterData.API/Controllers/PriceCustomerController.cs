@@ -4,8 +4,6 @@ using MasterData.Domain.Models.DTOs.Product;
 using MasterData.Domain.Models.ViewModels;
 using MasterData.Domain.Services.API;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Diagnostics;
 
 namespace MasterData.API.Controllers
 {
@@ -85,33 +83,35 @@ namespace MasterData.API.Controllers
         }
 
         [HttpPost("v1/prices/{id:int}")]
-        public async Task<IActionResult> PostAsync([FromRoute] int id)
+        public async Task<IActionResult> PostAsync([FromRoute] int id, [FromBody] PriceItemRequest model)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                    .SelectMany(x => x.Errors)
+                    .Select(x => x.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(new ResultViewModel<PriceItemRequest>(errors));
+            }
+
             try
             {
-                var price = await service.GetPriceById(id);
-
-                if (price == null)
+                var newPrice = new PriceItemRequest
                 {
-                    return NotFound(new ResultViewModel<PriceCustomerResponse>("Conteúdo não encontrado"));
-                }
+                    IdClient = id,
+                    IdProduct = model.IdProduct,
+                    UnitValue = model.UnitValue,
+                    InsertionDate = DateTime.Now
+                };
 
-                var grouped = price
-                    .GroupBy(x => x.IdClient)
-                    .Select(g => new PriceGroupedResponse
-                    {
-                        IdClient = g.Key,
+                var product = await service.AddAsync(newPrice);
 
-                        Products = g.Select(x => new PriceItemResponse
-                        {
-                            IdProduct = x.IdProduct,
-                            UnitValue = x.UnitValue,
-                            InsertionDate = x.InsertionDate
-                        }).ToList()
-
-                    }).ToList();
-
-                return Ok(new ResultViewModel<List<PriceGroupedResponse>>(grouped));
+                return Created($"v1/prices/{id}", newPrice);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new ResultViewModel<PriceCustomerResponse>("05XE9 - Não foi possível incluir um cliente"));
             }
             catch
             {

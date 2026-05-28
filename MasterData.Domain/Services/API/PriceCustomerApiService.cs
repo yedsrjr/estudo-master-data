@@ -25,5 +25,12 @@ namespace MasterData.Domain.Services.API
 
             return result;
         }
+        public async Task<int> AddAsync(PriceItemRequest request)
+        {
+            var cmd = repository.AddPrice(request);
+            var id = await repository.SetAsync(cmd);
+
+            return id;
+        }
     }
 }

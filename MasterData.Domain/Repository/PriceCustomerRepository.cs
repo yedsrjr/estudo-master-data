@@ -1,4 +1,5 @@
 ﻿using JJMasterData.Commons.Data;
+using MasterData.Domain.Models.DTOs.PriceCustomer;
 using System.Data;
 
 namespace MasterData.Domain.Repository
@@ -73,6 +74,24 @@ namespace MasterData.Domain.Repository
             };
 
             cmd.Parameters.Add(new DataAccessParameter("@id", id));
+
+            return cmd;
+        }
+
+        public DataAccessCommand AddPrice(PriceItemRequest request)
+        {
+            var cmd = new DataAccessCommand
+            {
+                Type = CommandType.Text,
+                Sql = @"
+                    INSERT INTO TabelaPrecos (CodClient, CodProduto, ValorUnit, DataInclusao)
+                    VALUES (@CodClient, @CodProduto, @ValorUnit, @DataInclusao)"
+            };
+
+            cmd.Parameters.Add(new DataAccessParameter("@CodClient", request.IdClient));
+            cmd.Parameters.Add(new DataAccessParameter("@CodProduto", request.IdProduct));
+            cmd.Parameters.Add(new DataAccessParameter("@ValorUnit", request.UnitValue));
+            cmd.Parameters.Add(new DataAccessParameter("@DataInclusao", request.InsertionDate));
 
             return cmd;
         }
