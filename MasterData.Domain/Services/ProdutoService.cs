@@ -9,7 +9,7 @@ using JJMasterData.Core.UI.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace Domain.Services
+namespace MasterData.Domain.Services
 {
     public class ProdutoService(IComponentFactory factory, IEntityRepository repository, LinkGenerator linkGen,
         IHttpContextAccessor contextAcessor, DashboardService cache)

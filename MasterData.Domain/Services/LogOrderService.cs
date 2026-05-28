@@ -2,7 +2,7 @@
 using JJMasterData.Core.DataDictionary.Models;
 using JJMasterData.Core.UI.Components;
 
-namespace Domain.Services
+namespace MasterData.Domain.Services
 {
     public class LogOrderService(IComponentFactory factory, IEntityRepository repository)
     {

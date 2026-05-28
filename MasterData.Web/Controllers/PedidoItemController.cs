@@ -1,8 +1,8 @@
 ﻿using JJMasterData.Web.Extensions;
 using Domain.Models.Enums;
 using Domain.Models.ViewModels;
-using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
+using MasterData.Domain.Services;
 
 namespace MasterData.Web.Controllers
 {

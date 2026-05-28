@@ -11,7 +11,7 @@ using JJMasterData.Core.UI.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace Domain.Services
+namespace MasterData.Domain.Services
 {
     public class PedidoItemService(IComponentFactory factory, IEntityRepository repository, LinkGenerator linkGen,
         IHttpContextAccessor contextAcessor, PedidoRepository pedidoRepository, LogOrderService logService)

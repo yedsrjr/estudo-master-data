@@ -2,7 +2,7 @@ using Domain.Models.ViewModels;
 using Domain.Repository;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace Domain.Services
+namespace MasterData.Domain.Services
 {
     public class DashboardService(DashboardRepository repository, IMemoryCache cache)
     {
