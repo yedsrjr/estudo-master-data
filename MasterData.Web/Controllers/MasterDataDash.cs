@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Domain.Services;
+﻿using MasterData.Domain.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MasterData.Web.Controllers
 {

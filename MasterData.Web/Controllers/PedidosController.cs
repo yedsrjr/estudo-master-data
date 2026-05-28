@@ -1,6 +1,5 @@
 ﻿using Domain.Models.Enums;
 using Domain.Models.ViewModels;
-using Domain.Services;
 using JJMasterData.Web.Extensions;
 using MasterData.Domain.Services;
 using Microsoft.AspNetCore.Mvc;

@@ -1,7 +1,6 @@
-﻿using JJMasterData.Core.UI.Components;
+﻿using Domain.Models.ViewModels;
 using JJMasterData.Web.Extensions;
-using Domain.Models.ViewModels;
-using Domain.Services;
+using MasterData.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MasterData.Web.Controllers

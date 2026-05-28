@@ -1,7 +1,7 @@
 ﻿using JJMasterData.Web.Extensions;
 using Domain.Models.ViewModels;
-using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
+using MasterData.Domain.Services;
 
 namespace MasterData.Web.Controllers
 {
