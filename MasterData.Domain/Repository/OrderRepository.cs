@@ -1,4 +1,5 @@
 ﻿using JJMasterData.Commons.Data;
+using MasterData.Domain.Models.Enums;
 using MasterData.Domain.Repository;
 using System.Data;
 
@@ -67,6 +68,54 @@ namespace Domain.Repository
             cmd.Parameters.Add(new DataAccessParameter("@status", status));
             cmd.Parameters.Add(new DataAccessParameter("@Offset", offset));
             cmd.Parameters.Add(new DataAccessParameter("@PageSize", pageSize));
+
+            return cmd;
+        }
+
+        public DataAccessCommand GetOrderById(int id)
+        {
+            var cmd = new DataAccessCommand
+            {
+                Type = CommandType.Text,
+                Sql = @"SELECT 
+	                        Id,
+	                        DataCriacao,
+	                        CodClient,
+	                        Total,
+	                        [Status],
+	                        Anexo,
+	                        ObservacaoNF
+                        FROM 
+	                        Pedidos
+                        WHERE Id = @id"
+            };
+
+            cmd.Parameters.Add(new DataAccessParameter("@id", id));
+
+            return cmd;
+        }
+
+        public DataAccessCommand GetOrderItems(int id)
+        {
+            var cmd = new DataAccessCommand
+            {
+                Type = CommandType.Text,
+                Sql = @"SELECT 
+	                        Id,
+	                        ItemId,
+                            PedidoId,
+	                        Quantidade,
+	                        PesoBruto,
+	                        PesoLiquido,
+	                        ValorUnit,
+	                        ValorTotal
+                        FROM 
+	                        PedidoItem
+                        WHERE
+                            PedidoId = @id"          
+            };
+
+            cmd.Parameters.Add(new DataAccessParameter("@id", id));
 
             return cmd;
         }

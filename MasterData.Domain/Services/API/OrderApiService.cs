@@ -36,7 +36,7 @@ namespace MasterData.Domain.Services.API
 
             var total = await repository.CountAsync(repository.CountOrderByStatus(intStatus));
             var cmd = repository.GetAllOrders(page, pageSize, intStatus);
-            var orders = await repository.GetAsync<OrderResponse>(cmd);
+            var orders = await repository.GetListAsync<OrderResponse>(cmd);
 
             return new PagedResult<OrderResponse>
             {
@@ -44,6 +44,32 @@ namespace MasterData.Domain.Services.API
                 Page = page,
                 PageSize = pageSize,
                 Items = orders
+            };
+        }
+
+        public async Task<OrderResponse?> GetOrderByIdAsync(int id)
+        {
+            var order = await repository.GetListAsync<OrderResponse>(repository.GetOrderById(id));
+
+            if (order == null) return null;
+
+            return order.FirstOrDefault();
+        }
+
+        public async Task<OrderWithItensResponse?> GetOrderItemsAsync(int id)
+        {
+            var cmd = repository.GetOrderById(id);
+
+            var order = await repository.GetAsync<OrderResponse>(cmd);
+
+            if (order == null) return null;
+
+            var itens = await repository.GetListAsync<ItemResponse>(repository.GetOrderItems(id));
+
+            return new OrderWithItensResponse
+            {
+                Order = order,
+                Itens = itens.Any() ? itens : null
             };
         }
     }

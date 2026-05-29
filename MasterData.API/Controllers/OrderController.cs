@@ -1,4 +1,5 @@
 ﻿using MasterData.Domain.Models.DTOs;
+using MasterData.Domain.Models.DTOs.Customer;
 using MasterData.Domain.Models.DTOs.Order;
 using MasterData.Domain.Models.DTOs.Product;
 using MasterData.Domain.Models.ViewModels;
@@ -25,18 +26,44 @@ namespace MasterData.API.Controllers
             }
         }
 
-        //[HttpGet("v1/orders/{id:int}")]
-        //public async Task<IActionResult> GetOrderWithItensAsync([FromQuery] string status = null)
-        //{
-        //    try
-        //    {
-        //        var orders = await service.GetOrdersAsync(page, pageSize, status);
-        //        return Ok(new ResultViewModel<PagedResult<OrderResponse>>(orders));
-        //    }
-        //    catch
-        //    {
-        //        return StatusCode(500, new ResultViewModel<PagedResult<OrderResponse>>("05X02 - Falha interna no servidor"));
-        //    }
-        //}
+        [HttpGet("v1/orders/{id:int}")]
+        public async Task<IActionResult> GetOrderByIdAsync([FromRoute] int id)
+        {
+            try
+            {
+                var order = await service.GetOrderByIdAsync(id);
+
+                if (order == null)
+                {
+                    return NotFound(new ResultViewModel<OrderResponse>("Conteúdo não encontrado"));
+                }
+
+                return Ok(new ResultViewModel<OrderResponse>(order));
+            }
+            catch
+            {
+                return StatusCode(500, new ResultViewModel<PagedResult<OrderResponse>>("05X02 - Falha interna no servidor"));
+            }
+        }
+
+        [HttpGet("v1/orders/items/{id:int}")]
+        public async Task<IActionResult> GetOrderWithItensAsync([FromRoute] int id)
+        {
+            try
+            {
+                var order = await service.GetOrderItemsAsync(id);
+
+                if (order == null)
+                {
+                    return NotFound(new ResultViewModel<OrderWithItensResponse>("Conteúdo não encontrado"));
+                }
+
+                return Ok(new ResultViewModel<OrderWithItensResponse>(order));
+            }
+            catch
+            {
+                return StatusCode(500, new ResultViewModel<PagedResult<OrderResponse>>("05X02 - Falha interna no servidor"));
+            }
+        }
     }
 }
