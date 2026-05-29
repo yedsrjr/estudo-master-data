@@ -11,4 +11,14 @@ public static class DataTableExtensions
 
         return JsonConvert.DeserializeObject<List<T>>(serialized, jsonSerializerSettings);
     }
+    public static T? ToModel<T>(this DataTable dataTable, JsonSerializerSettings? jsonSerializerSettings = null)
+    {
+        if (dataTable.Rows.Count == 0) return default;
+
+        var serialized = JsonConvert.SerializeObject(dataTable);
+        var list = JsonConvert.DeserializeObject<List<T>>(serialized, jsonSerializerSettings);
+
+        return list.FirstOrDefault();
+    }
+
 }
