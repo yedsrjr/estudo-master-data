@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Routing;
 namespace MasterData.Domain.Services
 {
     public class PedidoItemService(IComponentFactory factory, IEntityRepository repository, LinkGenerator linkGen,
-        IHttpContextAccessor contextAcessor, PedidoRepository pedidoRepository, LogOrderService logService)
+        IHttpContextAccessor contextAcessor, OrderRepository pedidoRepository, LogOrderService logService)
     {
         public async Task<JJFormView> SetupFormViewItem(int? idPedido)
         {

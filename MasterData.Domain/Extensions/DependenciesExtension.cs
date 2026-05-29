@@ -14,7 +14,7 @@ namespace MasterData.Domain.Extensions
         {
             services.AddScoped<DashboardRepository>();
             services.AddScoped<OrderValidate>();
-            services.AddScoped<PedidoRepository>();
+            services.AddScoped<OrderRepository>();
             services.AddScoped<CustomerRepository>();
             services.AddScoped<BaseRepository>();
         }
@@ -33,12 +33,15 @@ namespace MasterData.Domain.Extensions
             services.AddScoped<CustomerRepository>();
             services.AddScoped<ProductRepository>();
             services.AddScoped<PriceCustomerRepository>();
+            services.AddScoped<OrderRepository>();
         }
         public static void AddServicesApi(this IServiceCollection services)
         {
             services.AddTransient<CustomerApiService>();
             services.AddTransient<ProductApiService>();
             services.AddTransient<PriceCustomerApiService>();
+            services.AddTransient<OrderApiService>();
+
         }
         public static void AddApiInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {

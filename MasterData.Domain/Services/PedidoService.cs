@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Routing;
 namespace MasterData.Domain.Services
 {
     public class PedidoService(IComponentFactory factory,IHttpContextAccessor contextAcessor, LinkGenerator linkGen,
-        IEntityRepository repository, DashboardService cache, PedidoRepository pedidoRepository,
+        IEntityRepository repository, DashboardService cache, OrderRepository pedidoRepository,
         FormFileService fileService)
     {
         public async Task<ComponentResult> SetupFormView()
