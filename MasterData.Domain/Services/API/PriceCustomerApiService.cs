@@ -14,14 +14,14 @@ namespace MasterData.Domain.Services.API
         public async Task<List<PriceCustomerResponse>> GetPricesAsync(int page, int pageSize)
         {
             var cmd = repository.GetPrices(page, pageSize);
-            var result = await repository.GetAsync<PriceCustomerResponse>(cmd);
+            var result = await repository.GetListAsync<PriceCustomerResponse>(cmd);
 
             return result;
         }
         public async Task<List<PriceCustomerResponse?>> GetPriceById(int id)
         {
             var cmd = repository.GetPriceById(id);
-            var result = await repository.GetAsync<PriceCustomerResponse>(cmd);
+            var result = await repository.GetListAsync<PriceCustomerResponse>(cmd);
 
             return result;
         }

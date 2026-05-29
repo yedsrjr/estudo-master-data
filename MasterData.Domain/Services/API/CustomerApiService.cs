@@ -11,7 +11,7 @@ namespace MasterData.Domain.Services.API
         {
             var total = await customerRepository.CountAsync(customerRepository.GetCommandCustomerCount());
             
-            var customers = await customerRepository.GetAsync<CustomerResponse>(
+            var customers = await customerRepository.GetListAsync<CustomerResponse>(
                 customerRepository.GetCommandCustomer(page, pageSize));
 
             return new PagedResult<CustomerResponse>
@@ -25,7 +25,7 @@ namespace MasterData.Domain.Services.API
         public async Task<CustomerResponse?> GetByIdAsync(int id)
         {
             var cmd = customerRepository.GetCustomerById(id);
-            var customer = await customerRepository.GetAsync<CustomerResponse>(cmd);
+            var customer = await customerRepository.GetListAsync<CustomerResponse>(cmd);
 
             return customer.FirstOrDefault();
         }

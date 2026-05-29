@@ -10,7 +10,12 @@ namespace MasterData.Domain.Repository
 {
     public class BaseRepository(DataAccess dataAccess)
     {
-        public async Task<List<T>> GetAsync<T>(DataAccessCommand cmd)
+        public async Task<T?> GetAsync<T>(DataAccessCommand cmd)
+        {
+            var dt = await dataAccess.GetDataTableAsync(cmd);
+            return dt.ToModel<T>() ?? default;
+        }
+        public async Task<List<T>> GetListAsync<T>(DataAccessCommand cmd)
         {
             var dt = await dataAccess.GetDataTableAsync(cmd);
             return dt.ToModelList<T>() ?? [];

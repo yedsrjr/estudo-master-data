@@ -15,7 +15,7 @@ namespace MasterData.Domain.Services.API
         {
             var total = await repository.CountAsync(repository.Count());
 
-            var products = await repository.GetAsync<ProductResponse>(
+            var products = await repository.GetListAsync<ProductResponse>(
                 repository.GetProducts(page, pageSize));
 
             return new PagedResult<ProductResponse>
@@ -30,7 +30,7 @@ namespace MasterData.Domain.Services.API
         public async Task<ProductResponse?> GetProductById(int id)
         {
             var product = repository.GetProductById(id);
-            var result = await repository.GetAsync<ProductResponse>(product);
+            var result = await repository.GetListAsync<ProductResponse>(product);
 
             return result.FirstOrDefault();
         }
