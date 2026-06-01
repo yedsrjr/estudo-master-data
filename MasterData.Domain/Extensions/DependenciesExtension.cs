@@ -41,7 +41,7 @@ namespace MasterData.Domain.Extensions
             services.AddTransient<ProductApiService>();
             services.AddTransient<PriceCustomerApiService>();
             services.AddTransient<OrderApiService>();
-
+            services.AddTransient<FileUploadService>();
         }
         public static void AddApiInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {

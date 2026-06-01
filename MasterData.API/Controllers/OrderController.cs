@@ -1,4 +1,6 @@
-﻿using MasterData.Domain.Models.DTOs;
+﻿using Domain.Models.Enums;
+using MasterData.API.Models.DTOs.Customer;
+using MasterData.Domain.Models.DTOs;
 using MasterData.Domain.Models.DTOs.Customer;
 using MasterData.Domain.Models.DTOs.Order;
 using MasterData.Domain.Models.DTOs.Product;
@@ -63,6 +65,46 @@ namespace MasterData.API.Controllers
             catch
             {
                 return StatusCode(500, new ResultViewModel<PagedResult<OrderResponse>>("05X02 - Falha interna no servidor"));
+            }
+        }
+
+        [HttpPost("v1/orders")]
+        public async Task<IActionResult> PostAsync([FromBody] OrderRequest model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                    .SelectMany(x => x.Errors)
+                    .Select(x => x.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(new ResultViewModel<OrderRequest>(errors));
+            }
+
+            try
+            {
+                var newOrder = new OrderRequest
+                {
+                    IdCustomer = model.IdCustomer,
+                    Total = 0,
+                    Status = (int)OrderStatus.Elaboration,
+                    Document = model.Document,
+                    Observation = model.Observation,
+                    InsertionDate = DateTime.Now
+                };
+
+                var id = await service.PostOrderAsync(newOrder);
+                newOrder.Id = id;
+
+                return Created($"v1/orders/{id}", newOrder);
+            }
+            catch(Exception)
+            {
+                return StatusCode(500, new ResultViewModel<OrderResponse>("05X02 - Falha ao inserir pedido"));
+            }
+            catch
+            {
+                return StatusCode(500, new ResultViewModel<OrderResponse>("05X03 - Falha interna no servidor"));
             }
         }
     }

@@ -5,7 +5,7 @@ using MasterData.Domain.Models.DTOs.Order;
 
 namespace MasterData.Domain.Services.API
 {
-    public class OrderApiService(OrderRepository repository)
+    public class OrderApiService(OrderRepository repository, FileUploadService fileService)
     {
         public async Task<PagedResult<OrderResponse>> GetOrdersAsync(int page, int pageSize, string? status)
         {
@@ -71,6 +71,21 @@ namespace MasterData.Domain.Services.API
                 Order = order,
                 Itens = itens.Any() ? itens : null
             };
+        }
+
+        public async Task<int> PostOrderAsync(OrderRequest model)
+        {
+            var base64 = fileService.EnsureMimePrefix(model.Document!);
+
+            var fileName = $"{Guid.NewGuid()}.{fileService.GetExtension(base64)}";
+            model.Document = fileName;
+
+            var cmd = repository.AddOrder(model);
+            var id = await repository.SetAsync(cmd);
+
+            await fileService.SaveAsync(base64, id, fileName);
+
+            return id;
         }
     }
 }

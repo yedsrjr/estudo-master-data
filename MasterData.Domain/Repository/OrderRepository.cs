@@ -1,4 +1,5 @@
 ﻿using JJMasterData.Commons.Data;
+using MasterData.Domain.Models.DTOs.Order;
 using MasterData.Domain.Models.Enums;
 using MasterData.Domain.Repository;
 using System.Data;
@@ -71,7 +72,6 @@ namespace Domain.Repository
 
             return cmd;
         }
-
         public DataAccessCommand GetOrderById(int id)
         {
             var cmd = new DataAccessCommand
@@ -94,7 +94,6 @@ namespace Domain.Repository
 
             return cmd;
         }
-
         public DataAccessCommand GetOrderItems(int id)
         {
             var cmd = new DataAccessCommand
@@ -116,6 +115,28 @@ namespace Domain.Repository
             };
 
             cmd.Parameters.Add(new DataAccessParameter("@id", id));
+
+            return cmd;
+        }
+        public DataAccessCommand AddOrder(OrderRequest model)
+        {
+            var cmd = new DataAccessCommand
+            {
+                Type = CommandType.Text,
+                Sql = @"INSERT INTO [Pedidos]
+                            (CodClient, [Total], [Status], [ObservacaoNF], [Anexo], [DataCriacao])
+                            OUTPUT INSERTED.Id
+                            VALUES (@CodClient, @Total, @Status, @ObservacaoNF, @Anexo, 
+                            ISNULL(@DataCriacao, GETDATE()));
+                            SELECT SCOPE_IDENTITY();"
+            };
+
+            cmd.Parameters.Add(new DataAccessParameter("@CodClient", model.IdCustomer));
+            cmd.Parameters.Add(new DataAccessParameter("@Total", model.Total));
+            cmd.Parameters.Add(new DataAccessParameter("@Status", model.Status));
+            cmd.Parameters.Add(new DataAccessParameter("@ObservacaoNF", model.Observation));
+            cmd.Parameters.Add(new DataAccessParameter("@Anexo", model.Document));
+            cmd.Parameters.Add(new DataAccessParameter("@DataCriacao", model.InsertionDate));
 
             return cmd;
         }

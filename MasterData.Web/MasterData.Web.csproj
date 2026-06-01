@@ -10,6 +10,10 @@
     <ProjectReference Include="..\MasterData.Domain\MasterData.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\files\Pedidos\" />
+  </ItemGroup>
+
 	
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://raw.githubusercontent.com/JJConsulting/JJMasterData/main/jjmasterdata.json" /></VisualStudio></ProjectExtensions>
 
