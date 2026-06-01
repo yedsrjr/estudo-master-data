@@ -88,8 +88,13 @@ namespace MasterData.Domain.Services.API
 
             return id;
         }
-
-        public async Task<bool> CancelOrder(int id)
+        public async Task<bool> SendOrderAsync(int id)
+        {
+            var cmd = repository.SendOrder(id);
+            var result = await repository.SetAsync(cmd);
+            return Convert.ToInt32(result) > 0;
+        }
+        public async Task<bool> CancelOrderAsync(int id)
         {
             var cmd = repository.CancelOrder(id);
             var result = await repository.CancelAsync(cmd);

@@ -108,6 +108,37 @@ namespace MasterData.API.Controllers
                 return StatusCode(500, new ResultViewModel<OrderResponse>("05X03 - Falha interna no servidor"));
             }
         }
+
+        [HttpPut("v1/orders/{id:int}")]
+        public async Task<IActionResult> SendOrderAsync([FromRoute] int id)
+        {
+            try
+            {
+                var order = await service.GetOrderByIdAsync(id);
+
+                if (order == null)
+                {
+                    return NotFound(new ResultViewModel<OrderResponse>("Conteúdo não encontrado"));
+                }
+
+                if (order.Status == (int)OrderStatus.Elaboration)
+                {
+                    await service.SendOrderAsync(id);
+                    order.Status = (int)OrderStatus.Send;
+                }
+                else
+                {
+                    return BadRequest(new ResultViewModel<OrderResponse>("Alteração permitida apenas com status \"Em Elaboração\"."));
+                }
+
+                return Ok(new ResultViewModel<OrderResponse>(order));
+            }
+            catch
+            {
+                return StatusCode(500, new ResultViewModel<PagedResult<OrderResponse>>("05X02 - Falha interna no servidor"));
+            }
+        }
+
         [HttpDelete("v1/orders/{id:int}")]
         public async Task<IActionResult> CancelOrderAsync([FromRoute] int id)
         {
@@ -120,7 +151,7 @@ namespace MasterData.API.Controllers
                     return NotFound(new ResultViewModel<OrderResponse>("Conteúdo não encontrado"));
                 }
 
-                await service.CancelOrder(id);
+                await service.CancelOrderAsync(id);
 
                 order.Status = (int)OrderStatus.Canceled;
 

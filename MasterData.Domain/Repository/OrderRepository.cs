@@ -140,7 +140,6 @@ namespace Domain.Repository
 
             return cmd;
         }
-
         public DataAccessCommand CancelOrder(int id)
         {
             var cmd = new DataAccessCommand
@@ -148,6 +147,20 @@ namespace Domain.Repository
                 Type = CommandType.Text,
                 Sql = @"UPDATE [Pedidos]
                         SET [Status] = 3
+                        WHERE Id = @id;"
+            };
+            
+            cmd.Parameters.Add(new DataAccessParameter("@id", id));
+
+            return cmd;
+        }
+        public DataAccessCommand SendOrder(int id)
+        {
+            var cmd = new DataAccessCommand
+            {
+                Type = CommandType.Text,
+                Sql = @"UPDATE [Pedidos]
+                        SET [Status] = 2
                         WHERE Id = @id;"
             };
             
