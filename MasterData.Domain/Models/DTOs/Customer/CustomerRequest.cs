@@ -10,7 +10,7 @@ namespace MasterData.API.Models.DTOs.Customer
         public int Id { get; set; }
         [JsonProperty("NomeAbreviado")]
         [Required(ErrorMessage = "O Nome Abreviado é obrigatório")]
-        [StringLength(40, MinimumLength = 6, ErrorMessage = "Este campo deve conter entre 6 e 50 caracteres")]
+        [StringLength(40, MinimumLength = 6, ErrorMessage = "Este campo deve conter entre 6 e 40 caracteres")]
         public string? ShortName { get; set; }
         [Required(ErrorMessage = "O Nome é obrigatório")]
         [JsonProperty("NomeCliente")]
