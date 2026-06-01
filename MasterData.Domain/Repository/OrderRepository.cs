@@ -140,6 +140,21 @@ namespace Domain.Repository
 
             return cmd;
         }
+        public DataAccessCommand IncludeItems(OrderResponse order, int customerId, ItemResponse model)
+        {
+            var cmd = new DataAccessCommand
+            {
+                Type = CommandType.Text,
+                Sql = "EXEC sp_InserirPedidoItem @ItemId, @PedidoId, @Quantidade, @CodClient"
+            };
+
+            cmd.Parameters.Add(new DataAccessParameter("@ItemId", model.IdItem));
+            cmd.Parameters.Add(new DataAccessParameter("@PedidoId", order.Id));
+            cmd.Parameters.Add(new DataAccessParameter("@Quantidade", model.Quantity));
+            cmd.Parameters.Add(new DataAccessParameter("@CodClient", customerId));
+
+            return cmd;
+        }
         public DataAccessCommand CancelOrder(int id)
         {
             var cmd = new DataAccessCommand

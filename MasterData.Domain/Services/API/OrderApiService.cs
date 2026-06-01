@@ -3,6 +3,7 @@ using Domain.Repository;
 using MasterData.Domain.Models.DTOs;
 using MasterData.Domain.Models.DTOs.Order;
 using MasterData.Domain.Repository;
+using System.Security.Cryptography;
 
 namespace MasterData.Domain.Services.API
 {
@@ -87,6 +88,19 @@ namespace MasterData.Domain.Services.API
             await fileService.SaveAsync(base64, id, fileName);
 
             return id;
+        }
+
+        public async Task<OrderWithItensResponse> IncludeItemsAsync(OrderResponse order, int customerId, ItemRequest model)
+        {
+            foreach (var item in model.Items)
+            {
+                var cmd = repository.IncludeItems(order, customerId, item);
+                await repository.SetAsync(cmd);
+            }
+
+            var orderItems = await GetOrderItemsAsync(order.Id);
+
+            return orderItems;
         }
         public async Task<bool> SendOrderAsync(int id)
         {

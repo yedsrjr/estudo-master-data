@@ -1,6 +1,11 @@
 using MasterData.Domain.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, services, configuration) => configuration
+    .ReadFrom.Configuration(context.Configuration)
+    .ReadFrom.Services(services));
 
 // Add services to the container.
 
@@ -23,8 +28,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseSerilogRequestLogging();
+
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.Logger.LogInformation("API iniciada com Serilog em {DateTime}", DateTime.Now);
 
 app.Run();
