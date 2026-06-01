@@ -2,6 +2,7 @@
 using Domain.Repository;
 using MasterData.Domain.Models.DTOs;
 using MasterData.Domain.Models.DTOs.Order;
+using MasterData.Domain.Repository;
 
 namespace MasterData.Domain.Services.API
 {
@@ -86,6 +87,13 @@ namespace MasterData.Domain.Services.API
             await fileService.SaveAsync(base64, id, fileName);
 
             return id;
+        }
+
+        public async Task<bool> CancelOrder(int id)
+        {
+            var cmd = repository.CancelOrder(id);
+            var result = await repository.CancelAsync(cmd);
+            return Convert.ToInt32(result) > 0;
         }
     }
 }

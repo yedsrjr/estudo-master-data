@@ -4,6 +4,7 @@ using MasterData.Domain.Models.DTOs;
 using MasterData.Domain.Models.DTOs.Customer;
 using MasterData.Domain.Models.DTOs.Order;
 using MasterData.Domain.Models.DTOs.Product;
+using MasterData.Domain.Models.Enums;
 using MasterData.Domain.Models.ViewModels;
 using MasterData.Domain.Services.API;
 using Microsoft.AspNetCore.Mvc;
@@ -105,6 +106,29 @@ namespace MasterData.API.Controllers
             catch
             {
                 return StatusCode(500, new ResultViewModel<OrderResponse>("05X03 - Falha interna no servidor"));
+            }
+        }
+        [HttpDelete("v1/orders/{id:int}")]
+        public async Task<IActionResult> CancelOrderAsync([FromRoute] int id)
+        {
+            try
+            {
+                var order = await service.GetOrderByIdAsync(id);
+
+                if (order == null)
+                {
+                    return NotFound(new ResultViewModel<OrderResponse>("Conteúdo não encontrado"));
+                }
+
+                await service.CancelOrder(id);
+
+                order.Status = (int)OrderStatus.Canceled;
+
+                return Ok(new ResultViewModel<OrderResponse>(order));
+            }
+            catch
+            {
+                return StatusCode(500, new ResultViewModel<PagedResult<OrderResponse>>("05X02 - Falha interna no servidor"));
             }
         }
     }
