@@ -365,3 +365,4 @@ FodyWeavers.xsd
 /MasterData.API/appsettings.Development.json
 /MasterData.Web/appsettings.Development.json
 /MasterData.API/appsettings.json
+/MasterData.Domain/Extensions/Configuration.cs

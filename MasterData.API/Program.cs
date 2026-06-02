@@ -15,7 +15,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddApiInfrastructure(builder.Configuration);
 
-builder.Services.AddRepositoriesApi();
+builder.Services.AddRepositoriesApi(); 
 builder.Services.AddServicesApi();
 
 var app = builder.Build();
@@ -25,6 +25,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseAuthentication();
 
 app.UseHttpsRedirection();
 
