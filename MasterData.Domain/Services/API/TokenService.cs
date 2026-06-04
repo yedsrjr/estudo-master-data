@@ -1,20 +1,19 @@
-﻿using MasterData.Domain.Extensions;
+using MasterData.Domain.Extensions;
 using MasterData.Domain.Models.DTOs.User;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
 namespace MasterData.Domain.Services.API
 {
-    public class TokenService
+    public class TokenService(IConfiguration configuration)
     {
         public string Create(User user)
         {
             var handler = new JwtSecurityTokenHandler();
-
-            var key = Encoding.ASCII.GetBytes(Configuration.PrivateKey);
-            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
+            var credentials = new SigningCredentials(JwtConfiguration.GetSecurityKey(configuration), 
+                SecurityAlgorithms.HmacSha256);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -35,11 +34,13 @@ namespace MasterData.Domain.Services.API
             ci.AddClaim(new Claim("Id", user.Id.ToString()));
             ci.AddClaim(new Claim(ClaimTypes.Name, user.Email));
             ci.AddClaim(new Claim(ClaimTypes.GivenName, user.Name));
+            ci.AddClaim(new Claim("Department", user.Department));
 
             foreach (var role in user.Roles)
             {
                 ci.AddClaim(new Claim(ClaimTypes.Role, role));
             }
+
             return ci;
         }
     }

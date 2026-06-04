@@ -4,6 +4,7 @@ using MasterData.Domain.Models.DTOs.Order;
 using MasterData.Domain.Models.ViewModels;
 using MasterData.Domain.Services.API;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 
 namespace MasterData.API.Controllers
 {
@@ -40,6 +41,11 @@ namespace MasterData.API.Controllers
                 }
 
                 return Ok(new ResultViewModel<OrderResponse>(order));
+            }
+            catch(SqlException ex)
+            {
+                logger.LogError(ex, $"Falha ao buscar pedido. OrderId={id}");
+                return StatusCode(500, new ResultViewModel<PagedResult<OrderResponse>>("Falha inesperada, contate o administrador do sistema"));
             }
             catch(Exception ex)
             {

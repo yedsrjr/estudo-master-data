@@ -7,10 +7,8 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
     .ReadFrom.Configuration(context.Configuration)
     .ReadFrom.Services(services));
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
 builder.Services.AddOpenApi();
 
 builder.Services.AddApiInfrastructure(builder.Configuration);
@@ -26,12 +24,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseAuthentication();
-
-app.UseHttpsRedirection();
-
-app.UseSerilogRequestLogging();
-
+app.UseHttpsRedirection();        
+//app.UseSerilogRequestLogging();   
+app.UseAuthentication();          
 app.UseAuthorization();
 
 app.MapControllers();
