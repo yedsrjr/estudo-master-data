@@ -1,4 +1,5 @@
 using MasterData.Domain.Extensions;
+using Scalar.AspNetCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,16 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
+    app.MapScalarApiReference("v1/documentation", options =>
+    {
+        options
+            .WithTitle("Pedidos API")
+            .WithTheme(ScalarTheme.BluePlanet)
+            .WithDefaultHttpClient(
+                ScalarTarget.CSharp,
+                ScalarClient.HttpClient);
+    });
 }
 
 app.UseHttpsRedirection();        
