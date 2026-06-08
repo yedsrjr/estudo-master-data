@@ -140,6 +140,11 @@ namespace MasterData.Domain.Extensions
                 {
                     policy.RequireClaim("Department", "IT");
                 });
+
+                x.AddPolicy("OnlyBuyers", policy =>
+                {
+                    policy.RequireClaim("Department", "Buyer");
+                });
             });
 
             services.AddMemoryCache();

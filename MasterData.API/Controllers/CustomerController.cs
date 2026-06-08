@@ -4,6 +4,7 @@ using MasterData.Domain.Models.DTOs.Customer;
 using MasterData.Domain.Models.Enums;
 using MasterData.Domain.Models.ViewModels;
 using MasterData.Domain.Services.API;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MasterData.API.Controllers
@@ -47,6 +48,7 @@ namespace MasterData.API.Controllers
         }
 
         [HttpPost("v1/customers")]
+        [Authorize(Policy = "OnlyBuyers")]
         public async Task<IActionResult> PostAsync([FromBody] CustomerRequest model)
         {
             if (!ModelState.IsValid)
@@ -86,6 +88,7 @@ namespace MasterData.API.Controllers
         }
 
         [HttpPut("v1/customers/{id:int}")]
+        [Authorize(Policy = "OnlyBuyers")]
         public async Task<IActionResult> PutAsync([FromRoute] int id, [FromBody] CustomerRequest model)
         {
             try
@@ -122,6 +125,7 @@ namespace MasterData.API.Controllers
         }
 
         [HttpDelete("v1/customers/{id:int}")]
+        [Authorize(Policy = "OnlyBuyers")]
         public async Task<IActionResult> CancelAsync([FromRoute] int id)
         {
             try
