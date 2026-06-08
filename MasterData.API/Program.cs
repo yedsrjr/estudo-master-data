@@ -28,7 +28,7 @@ if (app.Environment.IsDevelopment())
     {
         options
             .WithTitle("Pedidos API")
-            .WithTheme(ScalarTheme.BluePlanet)
+            .WithTheme(ScalarTheme.DeepSpace)
             .WithDefaultHttpClient(
                 ScalarTarget.CSharp,
                 ScalarClient.HttpClient);

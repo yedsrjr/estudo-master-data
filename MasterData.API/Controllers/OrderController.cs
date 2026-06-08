@@ -3,6 +3,7 @@ using MasterData.Domain.Models.DTOs;
 using MasterData.Domain.Models.DTOs.Order;
 using MasterData.Domain.Models.ViewModels;
 using MasterData.Domain.Services.API;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 
@@ -76,6 +77,7 @@ namespace MasterData.API.Controllers
         }
 
         [HttpPost("v1/orders")]
+        [Authorize(Policy = "OnlyBuyers")]
         public async Task<IActionResult> PostAsync([FromBody] OrderRequest model)
         {
             if (!ModelState.IsValid)
@@ -117,6 +119,7 @@ namespace MasterData.API.Controllers
         }
 
         [HttpPut("v1/orders/items/{id:int}")]
+        [Authorize(Policy = "OnlyBuyers")]
         public async Task<IActionResult> IncludeItemsAsync([FromRoute] int id, [FromBody] ItemRequest model)
         {
             try
@@ -152,6 +155,7 @@ namespace MasterData.API.Controllers
         }
 
         [HttpPut("v1/orders/{id:int}")]
+        [Authorize(Policy = "OnlyBuyers")]
         public async Task<IActionResult> SendOrderAsync([FromRoute] int id)
         {
             try
@@ -183,6 +187,7 @@ namespace MasterData.API.Controllers
         }
 
         [HttpDelete("v1/orders/{id:int}")]
+        [Authorize(Policy = "OnlyBuyers")]
         public async Task<IActionResult> CancelOrderAsync([FromRoute] int id)
         {
             try
