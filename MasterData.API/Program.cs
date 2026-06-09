@@ -1,4 +1,5 @@
 using MasterData.Domain.Extensions;
+using MasterData.Domain.Models.Enums;
 using Scalar.AspNetCore;
 using Serilog;
 
@@ -10,7 +11,10 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
 
 builder.Services.AddControllers();
 
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
+});
 
 builder.Services.AddApiInfrastructure(builder.Configuration);
 
@@ -32,6 +36,12 @@ if (app.Environment.IsDevelopment())
             .WithDefaultHttpClient(
                 ScalarTarget.CSharp,
                 ScalarClient.HttpClient);
+
+        options.AddPreferredSecuritySchemes("Bearer")
+               .AddHttpAuthentication("Bearer", bearer =>
+               {
+                   bearer.Description = "Insira seu JWT aqui";
+               });
     });
 }
 
